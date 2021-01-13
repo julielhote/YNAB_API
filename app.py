@@ -9,24 +9,28 @@ HEADERS = {
 }
 
 USER_INPUT = """ Enter:
-- 'add acc' to add an account: """
+- 'see acc' to see a list of accounts: """
 
 
 def menu():
-    database.create_accounts_table()
     user_input = input(USER_INPUT)
-    if user_input == 'add acc':
+    if user_input == 'see acc':
+        database.create_accounts_table()
         prompt_add_account()
     else:
         print("Unknown command!")
 
 
-def prompt_add_account():
+# adjust if more than one budget
+def budget_id():
     list_budgets_ed = "/budgets"
     list_budgets = json.dumps(YouNeedABudget(HEADERS, list_budgets_ed).latest())
     list_budgets_json = json.loads(list_budgets)
+    return list_budgets_json['data']['budgets'][0]['id']
 
-    get_all_accounts_ed = f"/budgets/{list_budgets_json['data']['budgets'][0]['id']}/accounts"
+
+def prompt_add_account():
+    get_all_accounts_ed = f"/budgets/{budget_id()}/accounts"
     get_all_accounts = json.dumps(YouNeedABudget(HEADERS, get_all_accounts_ed).latest())
     all_accounts_json = json.loads(get_all_accounts)
 
