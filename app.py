@@ -9,6 +9,7 @@ HEADERS = {
 
 USER_INPUT = """ Enter:
 - 'acc' to get a list of your accounts
+- 'aacc' to add an account
 - 'lp' to get a list of all past payees
 - 'lt' to list all transactions
 - 'ct' to create a transaction
@@ -21,6 +22,8 @@ def menu():
     while user_input != 'q':
         if user_input == 'acc':
             accounts_id_list()
+        elif user_input == "aacc":
+            add_account()
         elif user_input == 'lp':
             payees_id()
         elif user_input == 'lt':
@@ -56,7 +59,21 @@ def accounts_id_list():
 
 
 def add_account():
-    pass
+    list_accounts_ed = f"/budgets/{budget_id()}/accounts"
+
+    name = input("Enter the name of the account: ")
+    type = input("Enter the type of the account: ")
+    balance = input("Enter the current balance of the account: ")
+    data = {
+            "account": {
+                "name": f"{name}",
+                "type": f"{type}",
+                "balance": balance
+            }
+     }
+    create_transaction_url = YouNeedABudgetPOST(HEADERS, list_accounts_ed, data).latest()
+    print(create_transaction_url)
+    return None
 
 
 def category_group_id_list():
@@ -65,10 +82,10 @@ def category_group_id_list():
     list_categories_json = json.loads(list_categories)
 
     print(list_categories_json)
-    category_group = input("Enter category group name: ")
-    category =
 
-    print(f"Category + ID: {list_categories_json['data']['category_groups'][i]['name']} "
+    length = len(list_categories_json['data']['category_groups'])
+    for i in range(length):
+        print(f"Category + ID: {list_categories_json['data']['category_groups'][i]['name']} "
               f"{list_categories_json['data']['category_groups'][i]['id']}")
     return None
 
@@ -131,5 +148,4 @@ def create_transaction():
     return None
 
 
-# menu()
-category_group_id_list()
+menu()
