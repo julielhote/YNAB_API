@@ -9,10 +9,10 @@ HEADERS = {
 
 USER_INPUT = """ Enter:
 - 'acc' to get a list of your accounts
-- 'aacc' to add an account
+- ('aacc' to add an account)
 - 'lp' to get a list of all past payees
 - 'lt' to list all transactions
-- 'ct' to create a transaction
+- ('ct' to create a transaction)
 - 'q' to quit
 SELECT: """
 
